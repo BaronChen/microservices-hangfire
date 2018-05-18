@@ -1,0 +1,53 @@
+version: '3.4'
+
+services:
+  e8ay.user.api:
+    image: e8ayuserapi
+    build:
+      context: .
+      dockerfile: E8ay.User.Api/Dockerfile
+
+  e8ay.item.api:
+    image: e8ayitemapi
+    build:
+      context: .
+      dockerfile: E8ay.Item.Api/Dockerfile
+
+  e8ay.bid.api:
+    image: e8aybidapi
+    build:
+      context: .
+      dockerfile: E8ay.Bid.Api/Dockerfile
+
+  e8ay.signalr:
+    image: e8aysignalr
+    build:
+      context: .
+      dockerfile: E8ay.SignalR/Dockerfile
+  
+ # e8ay.web:
+ #  image: e8ayweb
+ #  build:
+ #    context: .
+ #    dockerfile: E8ay.Web/Dockerfile
+  
+  e8ay.mongo:
+    image: mongo:3.6
+    ports:
+      - 27017:27017
+    volumes:
+      - db-volumes:/data/db
+    command: mongod --storageEngine=wiredTiger
+
+  e8ay.hangfire:
+    image: ${DOCKER_REGISTRY}e8ayhangfire
+    build:
+      context: .
+      dockerfile: ../E8ay.HangFire/Dockerfile
+
+volumes:
+  db-volumes:
+  redis-volumes:
+
+
+

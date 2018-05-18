@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  e8ay.user.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8100:80"
+
+  e8ay.item.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8200:80"
+
+  e8ay.bid.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8300:80"
+
+  e8ay.signalr:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8400:80"
+
+  e8ay.hangfire:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8500:80"
+
+#  e8ay.web:
+#   ports:
+#     - "8600:80"
