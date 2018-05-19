@@ -6,30 +6,32 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8100:80"
+    depends_on:
+      - e8ay.mongo
 
   e8ay.item.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8200:80"
+    depends_on:
+      - e8ay.mongo
 
   e8ay.bid.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8300:80"
-
-  e8ay.signalr:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8400:80"
+    depends_on:
+      - e8ay.mongo
 
   e8ay.hangfire:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8500:80"
+    depends_on:
+      - e8ay.mongo
 
 #  e8ay.web:
 #    ports:

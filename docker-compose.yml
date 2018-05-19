@@ -34,10 +34,10 @@ services:
     command: mongod --storageEngine=wiredTiger
 
   e8ay.hangfire:
-    image: ${DOCKER_REGISTRY}e8ayhangfire
+    image: e8ayhangfire
     build:
       context: .
-      dockerfile: ../E8ay.HangFire/Dockerfile
+      dockerfile: ./E8ay.HangFire/Dockerfile
 
 volumes:
   db-volumes:
