@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E8ay.Item.Api.Controllers
+namespace E8ay.User.Api.Controllers
 {
     [Authorize(Policy = "ApiUser")]
     [Route("api/[controller]")]

@@ -1,4 +1,5 @@
-﻿using E8ay.User.Data.Models;
+﻿using E8ay.Common;
+using E8ay.User.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

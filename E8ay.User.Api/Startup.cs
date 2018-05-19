@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E8ay.Common;
 using E8ay.User.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,9 @@ namespace E8ay.User.Api
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
+            //Order is important. Need to add Jwt auth after adding identity model, which will enable cookie auth
+            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -62,12 +66,13 @@ namespace E8ay.User.Api
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
+                
             }).AddJwtBearer(configureOptions =>
             {
                 configureOptions.ClaimsIssuer = issuer;
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+                
             });
 
             // api user claim policy
@@ -76,7 +81,6 @@ namespace E8ay.User.Api
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim("id"));
             });
 
-            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
             services.AddCors();
             services.AddMvc();
         }
@@ -93,8 +97,9 @@ namespace E8ay.User.Api
                     task.GetAwaiter().GetResult();
                 }
             }
-
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
