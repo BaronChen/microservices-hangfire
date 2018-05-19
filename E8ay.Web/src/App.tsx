@@ -1,20 +1,28 @@
 import * as React from 'react';
-import './App.css';
 
-import logo from './logo.svg';
+import { Redirect, Route } from 'react-router';
+import { ConnectedRouter } from 'react-router-redux';
+
+import './App.css';
+import Items from './items/items.container';
+import Login from './login/login.container';
+import { history } from './store';
+
 
 class App extends React.Component {
+
   public render() {
+
+    const redirectToLogin = () => (<Redirect to="/login" />);
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, aaa <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <ConnectedRouter history={history}>
+        <div>
+          <Route path="/login" component={Login} />
+          <Route path="/items" component={Items} />
+          <Route exact={true} path="/" render={redirectToLogin} />
+        </div>
+      </ConnectedRouter>
     );
   }
 }

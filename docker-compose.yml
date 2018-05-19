@@ -18,18 +18,12 @@ services:
     build:
       context: .
       dockerfile: E8ay.Bid.Api/Dockerfile
-
-  e8ay.signalr:
-    image: e8aysignalr
-    build:
-      context: .
-      dockerfile: E8ay.SignalR/Dockerfile
   
- # e8ay.web:
- #  image: e8ayweb
- #  build:
- #    context: .
- #    dockerfile: E8ay.Web/Dockerfile
+#  e8ay.web:
+#    image: e8ayweb
+#    build:
+#      context: .
+#      dockerfile: E8ay.Web/Dockerfile
   
   e8ay.mongo:
     image: mongo:3.6
