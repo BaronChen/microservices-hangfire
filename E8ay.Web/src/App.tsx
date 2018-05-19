@@ -4,8 +4,8 @@ import { Redirect, Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 
 import './App.css';
-import Items from './items/items.container';
-import Login from './login/login.container';
+import Items from './items/items';
+import Login from './login/login';
 import { history } from './store';
 
 
@@ -17,7 +17,7 @@ class App extends React.Component {
 
     return (
       <ConnectedRouter history={history}>
-        <div>
+        <div className="main-container">
           <Route path="/login" component={Login} />
           <Route path="/items" component={Items} />
           <Route exact={true} path="/" render={redirectToLogin} />

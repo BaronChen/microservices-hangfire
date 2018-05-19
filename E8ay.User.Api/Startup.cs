@@ -77,6 +77,7 @@ namespace E8ay.User.Api
             });
 
             ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -92,7 +93,9 @@ namespace E8ay.User.Api
                     task.GetAwaiter().GetResult();
                 }
             }
-            
+
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseMvc();
         }
     }

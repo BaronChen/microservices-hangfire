@@ -5,5 +5,13 @@
       "config/**/*.js",
       "node_modules/**/*.ts"
     ]
+  },
+  "rules": {
+    "max-classes-per-file": false,
+    "no-unused-expression": false,
+    "no-console": false,
+    "jsx-no-bind": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false
   }
 }

@@ -3,12 +3,17 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 
 import createHistory from 'history/createBrowserHistory'
 
+import { ILoginState, loginReducer  } from './login/reducers';
+
+import { middleware as reduxPackMiddleware } from 'redux-pack'
 
 export interface IRootState {
+  login: ILoginState;
   router: RouterState;
 }
 
 export const rootReducer = combineReducers<IRootState>({
+  login: loginReducer,
   router: routerReducer
 });
 
@@ -28,7 +33,7 @@ const historyMiddleware = routerMiddleware(history);
 
 const configureStore = (initialState?: IRootState) => {
   // configure middlewares
-  const middlewares = [historyMiddleware];
+  const middlewares = [historyMiddleware,reduxPackMiddleware];
   // compose enhancers
   const enhancer = composeEnhancers(
     applyMiddleware(...middlewares)
