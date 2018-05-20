@@ -56,5 +56,14 @@ namespace E8ay.Common.Api
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim("id"));
             });
         }
+
+        public static void ConfigureMongoOption(IServiceCollection services, string mongoConnectionString, string database)
+        {
+            services.Configure<MongoOptions>(options =>
+            {
+                options.ConnectionString = mongoConnectionString;
+                options.Database = database;
+            });
+        }
     }
 }

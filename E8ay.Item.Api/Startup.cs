@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using E8ay.Common;
 using E8ay.Common.Api;
+using E8ay.Item.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +31,11 @@ namespace E8ay.Item.Api
         {
       
             const string mongoConnectionString = "mongodb://e8ay.mongo:27017/item";
+            const string database = "item";
 
             ApiConfig.ConfigureJwtAuth(services);
+            ApiConfig.ConfigureMongoOption(services, mongoConnectionString, database);
+            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
 
             services.AddCors();
             services.AddMvc();
@@ -43,6 +47,11 @@ namespace E8ay.Item.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var task = serviceScope.ServiceProvider.GetService<IItemService>().SeedAuctionItems();
+                    task.GetAwaiter().GetResult();
+                }
             }
 
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

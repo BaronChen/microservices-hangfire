@@ -23,7 +23,7 @@ namespace E8ay.User.Data
 
                 options.Password.RequireDigit = false;
 
-            }); ;
+            });
 
         }
     }
