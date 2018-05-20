@@ -1,5 +1,5 @@
 import { Action, Dispatch } from 'redux';
-import { login } from '../http';
+import { login } from '../login.api';
 import { IJwt } from '../models';
 import { IRootState } from '../../store';
 

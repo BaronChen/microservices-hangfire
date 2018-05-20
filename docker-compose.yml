@@ -33,12 +33,6 @@ services:
       - db-volumes:/data/db
     command: mongod --storageEngine=wiredTiger
 
-  e8ay.hangfire:
-    image: e8ayhangfire
-    build:
-      context: .
-      dockerfile: ./E8ay.HangFire/Dockerfile
-
 volumes:
   db-volumes:
   redis-volumes:

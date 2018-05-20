@@ -21,6 +21,13 @@ namespace E8ay.User.Api.Controllers
             _authService = authService;
         }
 
+        [HttpGet]
+        [Route("")]
+        public string Index()
+        {
+            return "Welcome!";
+        }
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody]UserLoginViewModel model)

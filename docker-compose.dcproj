@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>29430410-491a-4e10-b131-ca650f4d376e</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/values</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/auth</DockerServiceUrl>
     <DockerServiceName>e8ay.user.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

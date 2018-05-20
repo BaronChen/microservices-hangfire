@@ -20,8 +20,6 @@ export interface ILoginState {
 export const loginReducer = combineReducers<ILoginState, LoginActions>({
   auth: (state = {id:'', auth_token: '', expires_in: 0}, action) => {
     switch (action.type) {
-      // case actionTypes.UPDATE_AUTH_TOKEN:
-      //   return Object.assign({}, state, (action as IUpdateAuthToken).payload);
       case actionTypes.SUBMIT_LOGIN:
         return handle(state, action, {
           success: prevState => Object.assign({}, prevState, (action as ISubmitLogin).payload)

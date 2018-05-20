@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using E8ay.Common;
+using E8ay.Common.Api;
 using E8ay.User.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -28,52 +29,13 @@ namespace E8ay.User.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            const string issuer = "e8ay";
-            const string audience = "http://localhost:8100";
-            var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("this is my custom Secret key for authnetication"));
-
             const string mongoConnectionString = "mongodb://e8ay.mongo:27017/user";
 
-            // Configure JwtIssuerOptions
-
-            services.Configure<JwtIssuerOptions>(options =>
-            {
-                options.Issuer = issuer;
-                options.Audience = audience;
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-            });
-
-            //Order is important. Need to add Jwt auth after adding identity model, which will enable cookie auth
+         
+            //Order is important. Need to add Jwt auth after adding identity model, otherwise will enable cookie auth
             ServicesInstaller.ConfigureServices(services, mongoConnectionString);
 
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = issuer,
-
-                ValidateAudience = true,
-                ValidAudience = audience,
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                
-            }).AddJwtBearer(configureOptions =>
-            {
-                configureOptions.ClaimsIssuer = issuer;
-                configureOptions.TokenValidationParameters = tokenValidationParameters;
-                configureOptions.SaveToken = true;
-                
-            });
+            ApiConfig.ConfigureJwtAuth(services);
 
             // api user claim policy
             services.AddAuthorization(options =>
