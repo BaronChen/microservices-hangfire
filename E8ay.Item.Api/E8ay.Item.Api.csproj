@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HangFire" Version="1.6.19" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
@@ -21,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\E8ay.Common.Api\E8ay.Common.Api.csproj" />
+    <ProjectReference Include="..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
     <ProjectReference Include="..\E8ay.Common\E8ay.Common.csproj" />
     <ProjectReference Include="..\E8ay.Item.Services\E8ay.Item.Services.csproj" />
   </ItemGroup>

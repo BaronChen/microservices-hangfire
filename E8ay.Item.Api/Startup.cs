@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using E8ay.Common;
 using E8ay.Common.Api;
+using E8ay.Common.HangFire;
 using E8ay.Item.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -30,12 +31,15 @@ namespace E8ay.Item.Api
         public void ConfigureServices(IServiceCollection services)
         {
       
-            const string mongoConnectionString = "mongodb://e8ay.mongo:27017/item";
+            const string mongoConnectionString = "mongodb://e8ay.mongo:27017/";
             const string database = "item";
+            const string hangFireDb = "hangfire";
 
             ApiConfig.ConfigureJwtAuth(services);
             ApiConfig.ConfigureMongoOption(services, mongoConnectionString, database);
             ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+
+            HangfireConfig.ConfigureServices(services, mongoConnectionString, hangFireDb);
 
             services.AddCors();
             services.AddMvc();
@@ -44,6 +48,8 @@ namespace E8ay.Item.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            HangfireConfig.ConfigureApp(app, env, "item-queue");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
