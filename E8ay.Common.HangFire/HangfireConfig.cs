@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using E8ay.Common.HangFire.EventBus;
+using E8ay.Common.HangFire.Impl;
 
 namespace E8ay.Common.HangFire
 {
@@ -18,6 +20,12 @@ namespace E8ay.Common.HangFire
             {
                 config.UseMongoStorage(mongoConnectionString, database);
             });
+
+            services.AddSingleton<EventHandlerRegistry>();
+
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+
+            services.AddTransient<IJobService, JobService>();
         }
         
         public static void ConfigureApp(IApplicationBuilder app, IHostingEnvironment env, string serviceQueueName)
@@ -25,9 +33,11 @@ namespace E8ay.Common.HangFire
 
             var options = new BackgroundJobServerOptions
             {
-                Queues = new[] { serviceQueueName }
+                Queues = new[] { serviceQueueName },
+                Activator =  new ContainerJobActivator(app.ApplicationServices)
             };
-
+            
+            //After restart a duplicate server will still hanging around base on https://github.com/HangfireIO/Hangfire/issues/889
             app.UseHangfireServer(options);
 
             if (env.IsDevelopment())
@@ -37,7 +47,7 @@ namespace E8ay.Common.HangFire
                     Authorization = new[] { new MyAuthorizationFilter() }
                 });
 
-                JobStorage.Current?.GetMonitoringApi()?.PurgeJobs();
+                JobStorage.Current?.GetMonitoringApi()?.PurgeJobs(serviceQueueName);
             }
             
         }

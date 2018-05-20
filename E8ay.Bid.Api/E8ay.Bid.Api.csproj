@@ -19,4 +19,11 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\E8ay.Bid.Services\E8ay.Bid.Services.csproj" />
+    <ProjectReference Include="..\E8ay.Common.Api\E8ay.Common.Api.csproj" />
+    <ProjectReference Include="..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
+    <ProjectReference Include="..\E8ay.Common\E8ay.Common.csproj" />
+  </ItemGroup>
+
 </Project>

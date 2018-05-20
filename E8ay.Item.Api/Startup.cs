@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using E8ay.Common;
-using E8ay.Common.Api;
+﻿using E8ay.Common.Api;
 using E8ay.Common.HangFire;
 using E8ay.Item.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+
 
 namespace E8ay.Item.Api
 {
@@ -48,7 +39,7 @@ namespace E8ay.Item.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            HangfireConfig.ConfigureApp(app, env, "item-queue");
+            HangfireConfig.ConfigureApp(app, env, QueueConstants.ItemQueue);
 
             if (env.IsDevelopment())
             {

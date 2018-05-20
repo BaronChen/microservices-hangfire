@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E8ay.Common.Api;
+using E8ay.Common.HangFire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,17 +25,32 @@ namespace E8ay.Bid.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            const string mongoConnectionString = "mongodb://e8ay.mongo:27017/";
+            const string database = "item";
+            const string hangFireDb = "hangfire";
+
+            ApiConfig.ConfigureJwtAuth(services);
+            ApiConfig.ConfigureMongoOption(services, mongoConnectionString, database);
+            //ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+
+            HangfireConfig.ConfigureServices(services, mongoConnectionString, hangFireDb);
+
+            services.AddCors();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            HangfireConfig.ConfigureApp(app, env, QueueConstants.BidQueue);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseMvc();
         }
     }
