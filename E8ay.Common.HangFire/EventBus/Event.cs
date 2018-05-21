@@ -8,7 +8,7 @@ namespace E8ay.Common.HangFire.EventBus
     {
         public string EventName { get; set; }
 
-        public IEnumerable<string> TargetQueues { get; set; } = new List<string>();
+        public IList<string> TargetQueues { get; set; } = new List<string>();
 
         public T Data { get; set; }
     }

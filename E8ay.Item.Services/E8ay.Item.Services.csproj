@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
     <ProjectReference Include="..\E8ay.Common\E8ay.Common.csproj" />
     <ProjectReference Include="..\E8ay.Item.Data\E8ay.Item.Data.csproj" />
   </ItemGroup>

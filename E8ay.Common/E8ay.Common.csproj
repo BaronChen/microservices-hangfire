@@ -8,8 +8,4 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.2.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EventModel\" />
-  </ItemGroup>
-
 </Project>

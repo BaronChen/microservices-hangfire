@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using E8ay.Common.Enums;
+using E8ay.Common.HangFire;
+using E8ay.Common.HangFire.EventBus;
+using E8ay.Common.HangFire.EventModel;
 using E8ay.Common.ViewModels;
 using E8ay.Item.Data;
 using E8ay.Item.Data.Models;
@@ -14,11 +17,13 @@ namespace E8ay.Item.Services.Impl
     internal class ItemService : IItemService
     {
         private readonly IAuctionItemRepository _auctionItemRepository;
+        private readonly IJobService _jobService;
         private readonly IMapper _mapper;
 
-        public ItemService(IAuctionItemRepository auctionItemRepository)
+        public ItemService(IAuctionItemRepository auctionItemRepository, IJobService jobService)
         {
             _auctionItemRepository = auctionItemRepository;
+            _jobService = jobService;
 
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<AuctionItem, AuctionItemViewModel>();
@@ -37,6 +42,12 @@ namespace E8ay.Item.Services.Impl
 
         public IEnumerable<AuctionItemViewModel> GetAllAuctionItems()
         {
+            var @event = new Event<AuctionEndEventData>() { Data = new AuctionEndEventData() { ItemId = Guid.NewGuid().ToString() }, EventName = AuctionEndEventData.EventName };
+
+            @event.TargetQueues.Add(QueueConstants.BidQueue);
+
+            _jobService.PublishEvent(@event);
+
             return _auctionItemRepository.GetAllItems().Select(x => _mapper.Map<AuctionItem, AuctionItemViewModel>(x));
         }
 
@@ -59,6 +70,7 @@ namespace E8ay.Item.Services.Impl
 
                 await _auctionItemRepository.CreateItem(item);
             }
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E8ay.Bid.Services;
 using E8ay.Common.Api;
 using E8ay.Common.HangFire;
 using Microsoft.AspNetCore.Builder;
@@ -35,15 +36,17 @@ namespace E8ay.Bid.Api
             //ServicesInstaller.ConfigureServices(services, mongoConnectionString);
 
             HangfireConfig.ConfigureServices(services, mongoConnectionString, hangFireDb);
-
+            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
             services.AddCors();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             HangfireConfig.ConfigureApp(app, env, QueueConstants.BidQueue);
+
+            ServicesInstaller.ConfigureEventHandler(serviceProvider);
 
             if (env.IsDevelopment())
             {

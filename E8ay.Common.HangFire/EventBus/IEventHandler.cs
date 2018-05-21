@@ -4,8 +4,8 @@ using System.Text;
 
 namespace E8ay.Common.HangFire.EventBus
 {
-    public interface IEventHandler
+    public interface IEventHandler<T>
     {
-        void Handle<T>(Event<T> e);
+        void Handle(Event<T> e);
     }
 }

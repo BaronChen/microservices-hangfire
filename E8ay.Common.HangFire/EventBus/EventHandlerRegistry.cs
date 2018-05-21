@@ -4,20 +4,20 @@ using System.Text;
 
 namespace E8ay.Common.HangFire.EventBus
 {
-    public class EventHandlerRegistry
+    internal class EventHandlerRegistry: IEventHandlerRegistry
     {
         private readonly IServiceProvider _serviceProvider;
 
         private Dictionary<string, Type> _register = new Dictionary<string, Type>();
 
-        private EventHandlerRegistry(IServiceProvider serviceProvider)
+        public EventHandlerRegistry(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
         
-        public bool AddHandler(string eventName, Type type)
+        public bool AddHandler<T>(string eventName, Type type)
         {
-            if (!typeof(IEventHandler).IsAssignableFrom(type))
+            if (!typeof(IEventHandler<T>).IsAssignableFrom(type))
             {
                 throw new ApplicationException("Handler must implements IEventHandler interface");
             }
@@ -25,13 +25,13 @@ namespace E8ay.Common.HangFire.EventBus
             return _register.TryAdd(eventName, type);
         }
 
-        public IEventHandler GetHandler(string eventName)
+        public IEventHandler<T> GetHandler<T>(string eventName)
         {
             Type type;
             if (_register.TryGetValue(eventName, out type))
             {
                 var handler = _serviceProvider.GetService(type);
-                return (IEventHandler)handler;
+                return (IEventHandler<T>)handler;
             }
             else
             {

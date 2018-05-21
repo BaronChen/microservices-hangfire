@@ -21,13 +21,18 @@ namespace E8ay.Common.HangFire
                 config.UseMongoStorage(mongoConnectionString, database);
             });
 
-            services.AddSingleton<EventHandlerRegistry>();
+            services.AddSingleton<IEventHandlerRegistry, EventHandlerRegistry>();
 
             services.AddSingleton<IEventProcessor, EventProcessor>();
 
             services.AddTransient<IJobService, JobService>();
         }
-        
+
+        public static void RegisterEventHandlerInService<T>(IServiceCollection services, string eventName, Type handlerType)
+        {
+            services.AddTransient(handlerType);
+        }
+
         public static void ConfigureApp(IApplicationBuilder app, IHostingEnvironment env, string serviceQueueName)
         {
 
@@ -50,6 +55,12 @@ namespace E8ay.Common.HangFire
                 JobStorage.Current?.GetMonitoringApi()?.PurgeJobs(serviceQueueName);
             }
             
+        }
+        
+        public static void UseEventHandler<T>(IServiceProvider serviceProvider, string eventName, Type handlerType)
+        {
+            var registry = serviceProvider.GetService<IEventHandlerRegistry>();
+            registry.AddHandler<T>(eventName, handlerType);
         }
     }
 }

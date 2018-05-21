@@ -4,18 +4,18 @@ using System.Text;
 
 namespace E8ay.Common.HangFire.EventBus
 {
-    public class EventProcessor : IEventProcessor
+    internal class EventProcessor : IEventProcessor
     {
-        private EventHandlerRegistry _registry;
+        private IEventHandlerRegistry _registry;
 
-        public EventProcessor(EventHandlerRegistry eventHandlerRegistry)
+        public EventProcessor(IEventHandlerRegistry eventHandlerRegistry)
         {
             _registry = eventHandlerRegistry;
         }
 
         public void Process<T>(Event<T> e)
         {
-            var handler = _registry.GetHandler(e.EventName);
+            var handler = _registry.GetHandler<T>(e.EventName);
             
             handler?.Handle(e);
         }

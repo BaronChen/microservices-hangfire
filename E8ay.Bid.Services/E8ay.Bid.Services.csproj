@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\E8ay.Bid.Data\E8ay.Bid.Data.csproj" />
+    <ProjectReference Include="..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
+    <ProjectReference Include="..\E8ay.Common\E8ay.Common.csproj" />
   </ItemGroup>
 
 </Project>
