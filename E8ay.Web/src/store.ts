@@ -1,21 +1,8 @@
-import { routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-
+import { routerMiddleware } from 'react-router-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import createHistory from 'history/createBrowserHistory'
-
-import { ILoginState, loginReducer  } from './login/reducers';
-
 import { middleware as reduxPackMiddleware } from 'redux-pack'
-
-export interface IRootState {
-  login: ILoginState;
-  router: RouterState;
-}
-
-export const rootReducer = combineReducers<IRootState>({
-  login: loginReducer,
-  router: routerReducer
-});
+import { rootReducer, IRootState } from './reducer';
 
 declare var window: any;
 
@@ -31,7 +18,7 @@ export const history = createHistory();
 const historyMiddleware = routerMiddleware(history);
 
 
-const configureStore = (initialState?: IRootState) => {
+export const configureStore = (initialState?: IRootState) => {
   // configure middlewares
   const middlewares = [historyMiddleware,reduxPackMiddleware];
   // compose enhancers
@@ -46,8 +33,3 @@ const configureStore = (initialState?: IRootState) => {
   );
 }
 
-// pass an optional param to rehydrate state on app start
-const store = configureStore();
-
-// export store singleton instance
-export default store;

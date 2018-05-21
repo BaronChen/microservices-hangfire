@@ -1,5 +1,6 @@
 import App from './App';
-import store from './store';
+import { configureStore } from './store';
+import { storeRegistry } from './store-registry';
 
 import './index.css';
 
@@ -7,9 +8,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-
-// import registerServiceWorker from './registerServiceWorker';
-
+const store = configureStore();
+storeRegistry.registerStore(store);
 
 ReactDOM.render(
   <Provider store={store}>

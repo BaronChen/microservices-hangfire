@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { IRootState } from '../store';
+import { IRootState } from '../reducer';
 import { getPassword, getUsername } from './reducers';
 
 import { Dispatch } from 'redux';

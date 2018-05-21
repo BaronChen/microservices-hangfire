@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E8ay.Common.Api.Base;
 using E8ay.Common.ViewModels;
+using E8ay.User.Api.Models;
 using E8ay.User.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +14,7 @@ namespace E8ay.User.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/auth")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
 
@@ -36,8 +38,8 @@ namespace E8ay.User.Api.Controllers
 
             if (jwt == null)
                 return Unauthorized();
-
-            return Ok(JsonConvert.DeserializeObject(jwt));
+            
+            return OkResult(JsonConvert.DeserializeObject<Jwt>(jwt));
         }
 
     }

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect'
 
 import { actionTypes, IUpdateLoginForm, LoginActions, ISubmitLogin  } from '../actions/login.actions';
 import { IJwt } from '../models';
-import { IRootState } from '../../store';
+import { IRootState } from '../../reducer';
 
 import { handle } from 'redux-pack';
 
@@ -51,5 +51,5 @@ export const getPassword = createSelector<IRootState, ILoginState, string>(
 
 export const getAuthToken = createSelector<IRootState, ILoginState, string>(
   getLogin,
-  (state:ILoginState) => state.auth.auth_token
+  (state:ILoginState) => state.auth ? state.auth.auth_token : ''
 );

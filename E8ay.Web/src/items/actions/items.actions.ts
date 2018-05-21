@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { IRootState } from '../../store';
+import { IRootState } from '../../reducer';
 import { GetState, ActionMeta } from 'redux-pack';
 import { IItem } from '../models';
  

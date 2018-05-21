@@ -1,13 +1,12 @@
 import { Action, Dispatch } from 'redux';
 import { login } from '../login.api';
 import { IJwt } from '../models';
-import { IRootState } from '../../store';
+import { IRootState } from '../../reducer';
 
 import { GetState, ActionMeta } from 'redux-pack';
 
 import { push } from 'react-router-redux';
 
-   
 export const actionTypes = {
   SUBMIT_LOGIN: '[LOGIN]SUBMIT_LOGIN',
   UPDATE_AUTH_TOKEN: '[LOGIN]UPDATE_AUTH_TOKEN',
