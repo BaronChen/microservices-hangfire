@@ -33,9 +33,9 @@ namespace E8ay.User.Api
 
          
             //Order is important. Need to add Jwt auth after adding identity model, otherwise will enable cookie auth
-            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddServicesLayer(mongoConnectionString);
 
-            ApiConfig.ConfigureJwtAuth(services);
+            services.AddJwtAuth();
 
             // api user claim policy
             services.AddAuthorization(options =>

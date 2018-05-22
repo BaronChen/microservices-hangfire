@@ -5,9 +5,9 @@ using System.Text;
 
 namespace E8ay.Bid.Data
 {
-    public static class DataInstaller
+    public static class DataInstallerExtensions
     {
-        public static void ConfigureServices(IServiceCollection services, string mongoConnectionString)
+        public static void AddDataLayer(this IServiceCollection services, string mongoConnectionString)
         {
 
         }

@@ -8,14 +8,14 @@ using System.Text;
 
 namespace E8ay.Item.Services
 {
-    public static class ServicesInstaller
+    public static class ServicesInstallerExtension
     {
-        public static void ConfigureServices(IServiceCollection services, string mongoConnectionString)
+        public static void AddServicesLayer(this IServiceCollection services, string mongoConnectionString)
         {
             services.AddAutoMapper();
             services.AddTransient<IItemService, ItemService>();
 
-            DataInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddDataLayer(mongoConnectionString);
         }
     }
 }

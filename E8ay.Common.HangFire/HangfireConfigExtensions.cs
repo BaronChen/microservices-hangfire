@@ -11,10 +11,10 @@ using E8ay.Common.HangFire.Impl;
 
 namespace E8ay.Common.HangFire
 {
-    public static class HangfireConfig
+    public static class HangfireConfigExtensions
     {
 
-        public static void ConfigureServices(IServiceCollection services, string mongoConnectionString, string database)
+        public static void AddHangFireServices(this IServiceCollection services, string mongoConnectionString, string database)
         {
             services.AddHangfire(config =>
             {
@@ -28,12 +28,12 @@ namespace E8ay.Common.HangFire
             services.AddTransient<IJobService, JobService>();
         }
 
-        public static void RegisterEventHandlerInService<T>(IServiceCollection services, string eventName, Type handlerType)
+        public static void AddEventHandlerInServices<T>(this IServiceCollection services, string eventName, Type handlerType)
         {
             services.AddTransient(handlerType);
         }
 
-        public static void ConfigureApp(IApplicationBuilder app, IHostingEnvironment env, string serviceQueueName)
+        public static void UseHangFireServices(this IApplicationBuilder app, IHostingEnvironment env, string serviceQueueName)
         {
 
             var options = new BackgroundJobServerOptions
@@ -57,7 +57,7 @@ namespace E8ay.Common.HangFire
             
         }
         
-        public static void UseEventHandler<T>(IServiceProvider serviceProvider, string eventName, Type handlerType)
+        public static void UseEventHandlerInServices<T>(this IServiceProvider serviceProvider, string eventName, Type handlerType)
         {
             var registry = serviceProvider.GetService<IEventHandlerRegistry>();
             registry.AddHandler<T>(eventName, handlerType);

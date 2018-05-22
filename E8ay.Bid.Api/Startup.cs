@@ -31,12 +31,12 @@ namespace E8ay.Bid.Api
             const string database = "item";
             const string hangFireDb = "hangfire";
 
-            ApiConfig.ConfigureJwtAuth(services);
-            ApiConfig.ConfigureMongoOption(services, mongoConnectionString, database);
-            //ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddJwtAuth();
+            services.AddMongoOption(mongoConnectionString, database);
 
-            HangfireConfig.ConfigureServices(services, mongoConnectionString, hangFireDb);
-            ServicesInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddHangFireServices(mongoConnectionString, hangFireDb);
+            services.AddServicesLayer(mongoConnectionString);
+            services.AddEventHandlers();
             services.AddCors();
             services.AddMvc();
         }
@@ -44,9 +44,9 @@ namespace E8ay.Bid.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-            HangfireConfig.ConfigureApp(app, env, QueueConstants.BidQueue);
+            app.UseHangFireServices(env, QueueConstants.BidQueue);
 
-            ServicesInstaller.ConfigureEventHandler(serviceProvider);
+            serviceProvider.UseEventHandlers();
 
             if (env.IsDevelopment())
             {

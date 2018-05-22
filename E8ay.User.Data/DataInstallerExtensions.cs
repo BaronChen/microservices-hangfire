@@ -7,9 +7,9 @@ using System.Text;
 
 namespace E8ay.User.Data
 {
-    public static class DataInstaller
+    public static class DataInstallerExtension
     {
-        public static void ConfigureServices(IServiceCollection services, string mongoConnectionString)
+        public static void AddDataLayer(this IServiceCollection services, string mongoConnectionString)
         {
             services.AddMongoIdentityProvider<AppUser, AppRole>(mongoConnectionString, options =>
             {

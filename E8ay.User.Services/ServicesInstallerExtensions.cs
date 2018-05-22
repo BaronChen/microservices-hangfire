@@ -7,13 +7,13 @@ using System.Text;
 
 namespace E8ay.User.Services
 {
-    public static class ServicesInstaller
+    public static class ServicesInstallerExtension
     {
-        public static void ConfigureServices(IServiceCollection services, string mongoConnectionString)
+        public static void AddServicesLayer(this IServiceCollection services, string mongoConnectionString)
         {
             services.AddTransient<IJwtGenerator, JwtGenerator>();
             services.AddTransient<IAuthService, AuthService>();
-            DataInstaller.ConfigureServices(services, mongoConnectionString);
+            services.AddDataLayer(mongoConnectionString);
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace E8ay.Common.Api
 {
-    public static class ApiConfig
+    public static class ApiConfigExtension
     {
-        public static void ConfigureJwtAuth(IServiceCollection services)
+        public static void AddJwtAuth(this IServiceCollection services)
         {
             const string issuer = "e8ay";
             const string audience = "http://localhost:8100";
@@ -57,7 +57,7 @@ namespace E8ay.Common.Api
             });
         }
 
-        public static void ConfigureMongoOption(IServiceCollection services, string mongoConnectionString, string database)
+        public static void AddMongoOption(this IServiceCollection services, string mongoConnectionString, string database)
         {
             services.Configure<MongoOptions>(options =>
             {
