@@ -1,4 +1,5 @@
-﻿using E8ay.Common.Models;
+﻿using E8ay.Common.Enums;
+using E8ay.Common.Models;
 using E8ay.Common.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace E8ay.Item.Services
         Task CreateAuctionItem(AuctionItemViewModel itemViewModel);
 
         IEnumerable<AuctionItemViewModel> GetAllAuctionItems();
+
+        Task UpdateAuctionItemBidInfo(string id, decimal price, string highestBiderId, ItemStatus? itemStatus = null);
 
         Task SeedAuctionItems();
 

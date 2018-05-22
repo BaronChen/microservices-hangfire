@@ -11,7 +11,7 @@ namespace E8ay.Common.Api.Base
     {
         public string GetUserId()
         {
-            return this.HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+            return this.HttpContext.User.Claims.First(c => c.Type == "id").Value;
         }
 
         protected IActionResult OkResult<T>(T data)

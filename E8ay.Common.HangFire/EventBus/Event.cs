@@ -1,10 +1,11 @@
-﻿using System;
+﻿using E8ay.Common.HangFire.EventData;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace E8ay.Common.HangFire.EventBus
 {
-    public class Event<T>
+    public class Event<T> where T : IEventData
     {
         public string EventName { get; set; }
 

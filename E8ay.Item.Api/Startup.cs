@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using System;
 
 namespace E8ay.Item.Api
 {
@@ -31,15 +31,18 @@ namespace E8ay.Item.Api
             services.AddServicesLayer(mongoConnectionString);
 
             services.AddHangFireServices(mongoConnectionString, hangFireDb);
+            services.AddEventHandlers();
 
             services.AddCors();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-            app.UseHangFireServices(env, QueueConstants.ItemQueue);
+            app.UseHangFireServices(env, new string[] { QueueConstants.AuctionEndFinalise, QueueConstants.ItemQueue });
+
+            serviceProvider.UseEventHandlers();
 
             if (env.IsDevelopment())
             {

@@ -10,6 +10,9 @@ namespace E8ay.Bid.Services
     public interface IBidService
     {
         Task<ServiceResult> PlaceBid(AuctionBidViewModel bidViewModel, string userId);
-        
+
+        Task DeleteAllBids();
+
+        void FinaliseAuction(string itemId);
     }
 }

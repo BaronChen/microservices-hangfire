@@ -12,9 +12,9 @@ namespace E8ay.Common.ApiClient
         {
             services.Configure<ApiClientOptions>(options =>
             {
-                options.ItemServiceUrl = "http://e8ay.item.api:8200";
-                options.BidServiceUrl = "http://e8ay.bid.api:8300";
-                options.UserServiceUrl = "http://e8ay.user.api:8100";
+                options.ItemServiceUrl = "http://e8ay.item.api";
+                options.BidServiceUrl = "http://e8ay.bid.api";
+                options.UserServiceUrl = "http://e8ay.user.api";
              
             });
 

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using E8ay.Common.HangFire.EventData;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace E8ay.Common.HangFire.EventBus
 {
@@ -13,11 +15,11 @@ namespace E8ay.Common.HangFire.EventBus
             _registry = eventHandlerRegistry;
         }
 
-        public void Process<T>(Event<T> e)
+        public async Task Process<T>(Event<T> e) where T : IEventData
         {
             var handler = _registry.GetHandler<T>(e.EventName);
             
-            handler?.Handle(e);
+            await handler?.Handle(e);
         }
     }
 }

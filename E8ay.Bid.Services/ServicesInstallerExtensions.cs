@@ -4,7 +4,7 @@ using E8ay.Bid.Services.EventHandler;
 using E8ay.Bid.Services.Impl;
 using E8ay.Common.ApiClient;
 using E8ay.Common.HangFire;
-using E8ay.Common.HangFire.EventModel;
+using E8ay.Common.HangFire.EventData;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

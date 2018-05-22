@@ -33,7 +33,7 @@ namespace E8ay.Item.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("/{id}/validate-for-bid")]
+        [Route("{id}/validate-for-bid")]
         public IActionResult ValidateForBid(string id)
         {
             var result = _itemService.ValidateItemForBidding(id);
@@ -46,6 +46,14 @@ namespace E8ay.Item.Api.Controllers
             {
                 return BadResult(false, result.Errors);
             }
+        }
+
+        [HttpPost]
+        [Route("add")]
+        public IActionResult Create()
+        {
+            var userId = GetUserId();
+            return Ok();
         }
 
     }

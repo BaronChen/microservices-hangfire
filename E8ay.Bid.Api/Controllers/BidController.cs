@@ -1,12 +1,13 @@
-﻿using E8ay.Bid.Services;
-using E8ay.Common.Api.Base;
-using E8ay.Common.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E8ay.Bid.Services;
+using E8ay.Common.Api.Base;
+using E8ay.Common.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E8ay.Bid.Api.Controllers
 {
@@ -24,20 +25,19 @@ namespace E8ay.Bid.Api.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Create(AuctionBidViewModel bidViewModel)
+        public async Task<IActionResult> Create([FromBody]AuctionBidViewModel bidViewModel)
         {
             var userId = GetUserId();
             var result = await _bidService.PlaceBid(bidViewModel, userId);
 
             if (result.IsSuccess)
             {
-                return OkResult("Bid placed");
+                return OkResult<object>(null, "Bid placed");
             }
             else
             {
                 return BadResult(result.Errors);
             }
         }
-        
     }
 }

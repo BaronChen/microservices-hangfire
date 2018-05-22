@@ -1,19 +1,26 @@
 ﻿using E8ay.Common.HangFire.EventBus;
-using E8ay.Common.HangFire.EventModel;
+using E8ay.Common.HangFire.EventData;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace E8ay.Bid.Services.EventHandler
 {
     public class AuctionEndEventHandler : IEventHandler<AuctionEndEventData>
     {
+        private readonly IBidService _bidService;
 
-        public void Handle(Event<AuctionEndEventData> e)
+        public AuctionEndEventHandler(IBidService bidService)
         {
-            var id = e.Data.ItemId;
+            _bidService = bidService;
+        }
 
-            Console.WriteLine("auction end for item: " + id);
+        public Task Handle(Event<AuctionEndEventData> e)
+        {
+            _bidService.FinaliseAuction(e.Data.ItemId);
+
+            return Task.FromResult(0);
         }
     }
 }

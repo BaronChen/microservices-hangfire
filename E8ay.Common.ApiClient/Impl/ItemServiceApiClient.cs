@@ -21,8 +21,6 @@ namespace E8ay.Common.ApiClient.Impl
         
         public async Task<StandardResponse<bool>> ValidateItemForBidding(string itemId)
         {
-            var httpClient = new HttpClient();
-
             var contents = await GetResponse($"{_options.ItemServiceUrl}/api/items/{itemId}/validate-for-bid");
 
             return JsonConvert.DeserializeObject<StandardResponse<bool>>(contents);

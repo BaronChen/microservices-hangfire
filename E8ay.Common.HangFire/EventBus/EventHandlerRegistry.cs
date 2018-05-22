@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E8ay.Common.HangFire.EventData;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace E8ay.Common.HangFire.EventBus
             _serviceProvider = serviceProvider;
         }
         
-        public bool AddHandler<T>(string eventName, Type type)
+        public bool AddHandler<T>(string eventName, Type type) where T : IEventData
         {
             if (!typeof(IEventHandler<T>).IsAssignableFrom(type))
             {
@@ -25,7 +26,7 @@ namespace E8ay.Common.HangFire.EventBus
             return _register.TryAdd(eventName, type);
         }
 
-        public IEventHandler<T> GetHandler<T>(string eventName)
+        public IEventHandler<T> GetHandler<T>(string eventName) where T : IEventData
         {
             Type type;
             if (_register.TryGetValue(eventName, out type))

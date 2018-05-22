@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Text;
 using E8ay.Common.HangFire.EventBus;
 using E8ay.Common.HangFire.Impl;
+using E8ay.Common.Data;
+using E8ay.Common.HangFire.EventData;
 
 namespace E8ay.Common.HangFire
 {
@@ -16,6 +18,14 @@ namespace E8ay.Common.HangFire
 
         public static void AddHangFireServices(this IServiceCollection services, string mongoConnectionString, string database)
         {
+            var serviceProvider = services.BuildServiceProvider();
+            var env = serviceProvider.GetService<IHostingEnvironment>();
+
+            if (env.IsDevelopment())
+            {
+                DatabaseCleaner.ClearDatabase(mongoConnectionString, database);
+            } 
+
             services.AddHangfire(config =>
             {
                 config.UseMongoStorage(mongoConnectionString, database);
@@ -33,12 +43,12 @@ namespace E8ay.Common.HangFire
             services.AddTransient(handlerType);
         }
 
-        public static void UseHangFireServices(this IApplicationBuilder app, IHostingEnvironment env, string serviceQueueName)
+        public static void UseHangFireServices(this IApplicationBuilder app, IHostingEnvironment env, string[] serviceQueueNames)
         {
 
             var options = new BackgroundJobServerOptions
             {
-                Queues = new[] { serviceQueueName },
+                Queues = serviceQueueNames,
                 Activator =  new ContainerJobActivator(app.ApplicationServices)
             };
             
@@ -52,12 +62,11 @@ namespace E8ay.Common.HangFire
                     Authorization = new[] { new MyAuthorizationFilter() }
                 });
 
-                JobStorage.Current?.GetMonitoringApi()?.PurgeJobs(serviceQueueName);
             }
             
         }
         
-        public static void UseEventHandlerInServices<T>(this IServiceProvider serviceProvider, string eventName, Type handlerType)
+        public static void UseEventHandlerInServices<T>(this IServiceProvider serviceProvider, string eventName, Type handlerType) where T : IEventData
         {
             var registry = serviceProvider.GetService<IEventHandlerRegistry>();
             registry.AddHandler<T>(eventName, handlerType);

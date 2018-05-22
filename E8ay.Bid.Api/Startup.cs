@@ -44,16 +44,24 @@ namespace E8ay.Bid.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-            app.UseHangFireServices(env, QueueConstants.BidQueue);
+            app.UseHangFireServices(env, new string[] { QueueConstants.AuctionEnd, QueueConstants.Default, QueueConstants.BidQueue });
 
             serviceProvider.UseEventHandlers();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var task = serviceScope.ServiceProvider.GetService<IBidService>().DeleteAllBids();
+                    task.GetAwaiter().GetResult();
+                }
             }
 
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }
