@@ -3,6 +3,7 @@ using E8ay.Common.Enums;
 using E8ay.Common.HangFire;
 using E8ay.Common.HangFire.EventBus;
 using E8ay.Common.HangFire.EventModel;
+using E8ay.Common.Models;
 using E8ay.Common.ViewModels;
 using E8ay.Item.Data;
 using E8ay.Item.Data.Models;
@@ -42,13 +43,31 @@ namespace E8ay.Item.Services.Impl
 
         public IEnumerable<AuctionItemViewModel> GetAllAuctionItems()
         {
-            var @event = new Event<AuctionEndEventData>() { Data = new AuctionEndEventData() { ItemId = Guid.NewGuid().ToString() }, EventName = AuctionEndEventData.EventName };
+            //var @event = new Event<AuctionEndEventData>() { Data = new AuctionEndEventData() { ItemId = Guid.NewGuid().ToString() }, EventName = AuctionEndEventData.EventName };
 
-            @event.TargetQueues.Add(QueueConstants.BidQueue);
+            //@event.TargetQueues.Add(QueueConstants.BidQueue);
 
-            _jobService.PublishEvent(@event);
+            //_jobService.PublishEvent(@event);
 
             return _auctionItemRepository.GetAll().Select(x => _mapper.Map<AuctionItem, AuctionItemViewModel>(x));
+        }
+
+        public ServiceResult ValidateItemForBidding(string itemId)
+        {
+            var result = new ServiceResult();
+            var item = _auctionItemRepository.GetById(itemId);
+
+            if (item == null)
+            {
+                result.Errors.Add($"Item not exists.");
+            }
+
+            if (item.Status == ItemStatus.Sold || item.Status == ItemStatus.End)
+            {
+                result.Errors.Add("Cannot bid as auction for this item has ended.");
+            }
+
+            return result;
         }
 
         public async Task SeedAuctionItems()

@@ -12,7 +12,7 @@ namespace E8ay.Common.Api
         public static void AddJwtAuth(this IServiceCollection services)
         {
             const string issuer = "e8ay";
-            const string audience = "http://localhost:8100";
+            const string audience = "http://e8ay.user.api:8100";
             var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("this is my custom Secret key for authnetication"));
 
             services.Configure<JwtIssuerOptions>(options =>

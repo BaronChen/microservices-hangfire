@@ -1,4 +1,6 @@
-﻿using E8ay.Common.Api.Base;
+﻿using E8ay.Bid.Services;
+using E8ay.Common.Api.Base;
+using E8ay.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,18 +15,28 @@ namespace E8ay.Bid.Api.Controllers
     [Route("api/bids")]
     public class BidController:BaseController
     {
+        private readonly IBidService _bidService;
         
-        public BidController()
+        public BidController(IBidService bidService)
         {
-            
+            _bidService = bidService;
         }
 
         [HttpPost]
-        [Route("")]
-        public IActionResult Create()
+        [Route("add")]
+        public async Task<IActionResult> Create(AuctionBidViewModel bidViewModel)
         {
-            
-            return Ok();
+            var userId = GetUserId();
+            var result = await _bidService.PlaceBid(bidViewModel, userId);
+
+            if (result.IsSuccess)
+            {
+                return OkResult("Bid placed");
+            }
+            else
+            {
+                return BadResult(result.Errors);
+            }
         }
         
     }

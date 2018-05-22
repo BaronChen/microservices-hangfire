@@ -1,4 +1,5 @@
-﻿using E8ay.Common.ViewModels;
+﻿using E8ay.Common.Models;
+using E8ay.Common.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,7 @@ namespace E8ay.Item.Services
         IEnumerable<AuctionItemViewModel> GetAllAuctionItems();
 
         Task SeedAuctionItems();
+
+        ServiceResult ValidateItemForBidding(string itemId);
     }
 }

@@ -8,6 +8,7 @@ namespace E8ay.Common.Enums
     {
         Listed = 0,
         UnderOffer = 1,
-        Sold = 2
+        Sold = 2,
+        End = 3
     }
 }

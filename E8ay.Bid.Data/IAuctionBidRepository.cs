@@ -8,5 +8,6 @@ namespace E8ay.Bid.Data
 {
     public interface IAuctionBidRepository: IBaseRepository<AuctionBid>
     {
+        IList<AuctionBid> GetListByItemId(string itemId);
     }
 }

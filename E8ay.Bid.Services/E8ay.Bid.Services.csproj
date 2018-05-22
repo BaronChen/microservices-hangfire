@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\E8ay.Bid.Data\E8ay.Bid.Data.csproj" />
+    <ProjectReference Include="..\E8ay.Common.ApiClient\E8ay.Common.ApiClient.csproj" />
     <ProjectReference Include="..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
     <ProjectReference Include="..\E8ay.Common\E8ay.Common.csproj" />
   </ItemGroup>

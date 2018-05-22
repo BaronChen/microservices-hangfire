@@ -2,6 +2,7 @@
 using E8ay.Bid.Data;
 using E8ay.Bid.Services.EventHandler;
 using E8ay.Bid.Services.Impl;
+using E8ay.Common.ApiClient;
 using E8ay.Common.HangFire;
 using E8ay.Common.HangFire.EventModel;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ namespace E8ay.Bid.Services
 
             services.AddTransient<IBidService, BidService>();
             services.AddDataLayer(mongoConnectionString);
-            
+            services.AddApiClient();
         }
 
         public static void AddEventHandlers(this IServiceCollection services)

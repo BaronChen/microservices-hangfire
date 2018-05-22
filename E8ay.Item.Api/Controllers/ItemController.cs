@@ -31,6 +31,22 @@ namespace E8ay.Item.Api.Controllers
             return OkResult(items);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("/{id}/validate-for-bid")]
+        public IActionResult ValidateForBid(string id)
+        {
+            var result = _itemService.ValidateItemForBidding(id);
+
+            if (result.IsSuccess)
+            {
+                return OkResult(true);
+            }
+            else
+            {
+                return BadResult(false, result.Errors);
+            }
+        }
 
     }
 }
