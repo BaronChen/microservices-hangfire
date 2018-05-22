@@ -37,7 +37,7 @@ namespace E8ay.Item.Services.Impl
         {
             var item = _mapper.Map<AuctionItemViewModel, AuctionItem>(itemViewModel);
 
-            await _auctionItemRepository.CreateItem(item);
+            await _auctionItemRepository.Create(item);
         }
 
         public IEnumerable<AuctionItemViewModel> GetAllAuctionItems()
@@ -48,7 +48,7 @@ namespace E8ay.Item.Services.Impl
 
             _jobService.PublishEvent(@event);
 
-            return _auctionItemRepository.GetAllItems().Select(x => _mapper.Map<AuctionItem, AuctionItemViewModel>(x));
+            return _auctionItemRepository.GetAll().Select(x => _mapper.Map<AuctionItem, AuctionItemViewModel>(x));
         }
 
         public async Task SeedAuctionItems()
@@ -68,7 +68,7 @@ namespace E8ay.Item.Services.Impl
                     HighestBiderId = string.Empty
                 };
 
-                await _auctionItemRepository.CreateItem(item);
+                await _auctionItemRepository.Create(item);
             }
 
         }

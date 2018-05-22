@@ -28,7 +28,7 @@ namespace E8ay.Bid.Api
         {
 
             const string mongoConnectionString = "mongodb://e8ay.mongo:27017/";
-            const string database = "item";
+            const string database = "bid";
             const string hangFireDb = "hangfire";
 
             services.AddJwtAuth();

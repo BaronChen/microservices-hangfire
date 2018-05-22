@@ -1,4 +1,5 @@
-﻿using E8ay.Common.Enums;
+﻿using E8ay.Common.Data.Models;
+using E8ay.Common.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,8 @@ using System.Text;
 
 namespace E8ay.Item.Data.Models
 {
-    public class AuctionItem
+    public class AuctionItem: BaseModel
     {
-        [BsonId]
-        public string Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
