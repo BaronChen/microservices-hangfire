@@ -11,6 +11,9 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { debounce } from 'lodash';
 
+import { format, parse } from 'date-fns';
+import { Countdown } from '../../common/countdown/coutdown.component';
+
 export interface IAuctionItemProps {
   auctionItem: IAuctionItem,
   onBidPriceUpdate: (bidPrice: number) => void;
@@ -20,6 +23,7 @@ export interface IAuctionItemProps {
 const decorate = withStyles<"card" | "pos" | "textField">((theme: Theme) => ({
   card: {
     minWidth: 200,
+    height: '100%'
   },
   pos: {
     marginBottom: 12,
@@ -56,17 +60,25 @@ const DecoratedAuctionItemBlock = decorate(
             <Typography className={classes.pos} color="textSecondary">
               Current Price: ${auctionItem.highestPrice}
             </Typography>
-            <Typography component="h3">
-              {auctionItem.endDateTime}
-            </Typography>
-            <Typography component="h3">
-              {auctionItem.startDateTime}
-            </Typography>
-            <Typography component="p">
+
+            <Typography className={classes.pos} component="p">
               {auctionItem.description}
             </Typography>
+
+             <Typography  variant="subheading">
+              Start:
+            </Typography>
+            <Typography variant="body2">
+              {format(parse(auctionItem.startDateTime), 'DD/MM/YYYY HH:mm:ss')}
+            </Typography>
             
-            
+            <Typography  variant="subheading">
+              Ends In:
+            </Typography>
+            <Typography variant="body2">
+              <Countdown dateStr={auctionItem.endDateTime}/>
+            </Typography>
+
             {
               auctionItem.status !== ItemStatus.Sold && auctionItem.status !== ItemStatus.End ?
                 <TextField
@@ -81,16 +93,22 @@ const DecoratedAuctionItemBlock = decorate(
                   InputProps={{ inputProps: { min: 0, max: 9999999999 } }}
                   margin="normal"
                 />
-              :
-                <Typography component="h3">
+                :
+                <Typography component="h3" color="error">
                   {this.getAuctionEndedMessage(auctionItem.status)}
                 </Typography>
             }
 
           </CardContent>
-          <CardActions>
-            <Button color="primary" size="small" onClick={this.placeBidClicked.bind(this)}>Bid</Button>
-          </CardActions>
+          {
+            auctionItem.status !== ItemStatus.Sold && auctionItem.status !== ItemStatus.End ?
+              <CardActions>
+                <Button color="primary" size="small" onClick={this.placeBidClicked.bind(this)}>Bid</Button>
+              </CardActions>
+              : 
+              null
+          }
+
         </Card>
       )
     }
