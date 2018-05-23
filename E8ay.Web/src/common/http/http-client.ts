@@ -1,7 +1,8 @@
 import * as fetch from 'isomorphic-fetch';
-import { storeRegistry } from '../store-registry';
-import { getAuthToken } from '../login/reducers';
+import { storeRegistry } from '../../store-registry';
+import { getAuthToken } from '../../login/reducers';
 import { IStandarResponse } from './standard-response';
+import { push } from 'react-router-redux';
 
 export interface IErrorModel {
   status: number,
@@ -28,12 +29,14 @@ const getToken = (): string => {
   return getAuthToken(storeRegistry.getStore().getState());
 }
 
-const configAuthHeader = (headers: Headers): void => {
+const configAuthHeader = (headers: Headers): boolean => {
   const token = getToken();
   if (!token || token === '') {
-    throw new Error(`Request need a valid token`);
+    storeRegistry.getStore().dispatch(push('/login'));
+    return false;
   }
   headers.append('Authorization', `Bearer ${token}`);
+  return true;
 }
 
 const handleResponse = async <T>(response: Response): Promise<T | null> => {
@@ -61,7 +64,9 @@ export const post = async <T>(url: string, data: any, requireAuth: boolean = fal
   option.headers.append('Content-Type', 'application/json');
 
   if (requireAuth) {
-    configAuthHeader(option.headers);
+    if (!configAuthHeader(option.headers)){
+      return null;
+    }
   }
 
   const response = await fetch(url, option);
@@ -78,7 +83,9 @@ export const get = async <T>(url: string, requireAuth: boolean = false): Promise
   option.headers.append('Accept', 'application/json');
 
   if (requireAuth) {
-    configAuthHeader(option.headers);
+    if (!configAuthHeader(option.headers)){
+      return null;
+    }
   }
 
   const response = await fetch(url, option);

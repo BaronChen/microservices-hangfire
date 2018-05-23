@@ -53,3 +53,8 @@ export const getAuthToken = createSelector<IRootState, ILoginState, string>(
   getLogin,
   (state:ILoginState) => state.auth ? state.auth.auth_token : ''
 );
+
+export const getUserId = createSelector<IRootState, ILoginState, string>(
+  getLogin,
+  (state:ILoginState) => state.auth ? state.auth.id : ''
+);

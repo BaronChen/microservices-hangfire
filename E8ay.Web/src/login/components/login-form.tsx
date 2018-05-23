@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { Theme, WithStyles, withStyles } from '@material-ui/core/styles';
 
-import * as lodash from 'lodash';
+import {debounce} from 'lodash';
 
 export interface ILoginFormProps extends ILoginProps {
   onFormChange: (username: string, password: string) => void;
@@ -36,7 +36,7 @@ const DecoratedLoginForm = decorate(
     private usernameInput: any;
     private passwordInput: any;
 
-    private const debounce =  lodash.debounce((username: string, password: string) => this.props.onFormChange(username, password), 300, {leading:true, trailing: true});
+    private const inputDebounce =  debounce((username: string, password: string) => this.props.onFormChange(username, password), 300, {leading:true, trailing: true});
 
     public render() {
       const { classes } = this.props;
@@ -67,7 +67,7 @@ const DecoratedLoginForm = decorate(
     }
   
     public updateForm() {
-      this.debounce(this.usernameInput.value, this.passwordInput.value);
+      this.inputDebounce(this.usernameInput.value, this.passwordInput.value);
     }
 
     public loginClicked() {

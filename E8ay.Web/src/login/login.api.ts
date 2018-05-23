@@ -1,4 +1,4 @@
-import { post } from '../common/http';
+import { post } from '../common/http/http-client';
 import { IJwt } from './models';
 
 
