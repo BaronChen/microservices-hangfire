@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 
 export interface IAuctionItemListProps {
   auctionItems: IAuctionItem[],
+  currentUserId: string,
   onBidPriceUpdate: (item:IAuctionItem, bidPrice: number) => void;
   onPlaceBid: (item:IAuctionItem) => void;
 }
@@ -23,10 +24,14 @@ const DecoratedAuctionItemList = decorate(
   class AuctionItemList extends React.Component<PropsWithStyles> {
 
     public render() {
-      const { classes, auctionItems } = this.props;
+      const { classes, auctionItems, currentUserId } = this.props;
       const itemBlocks = auctionItems.map( (x:IAuctionItem) => 
         <Grid item={true} xs={12} sm={6} md={3} key={x.id}>
-          <AuctionItemBlock auctionItem={x} onBidPriceUpdate={this.onBidPriceUpdate(x).bind(this)} onPlaceBid={this.onPlaceBid(x).bind(this)}/>
+          <AuctionItemBlock 
+            auctionItem={x} 
+            currentUserId={currentUserId}
+            onBidPriceUpdate={this.onBidPriceUpdate(x).bind(this)} 
+            onPlaceBid={this.onPlaceBid(x).bind(this)}/>
         </Grid>
       );
 

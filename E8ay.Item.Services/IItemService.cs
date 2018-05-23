@@ -1,4 +1,5 @@
 ﻿using E8ay.Common.Enums;
+using E8ay.Common.HangFire.EventData;
 using E8ay.Common.Models;
 using E8ay.Common.ViewModels;
 using System;
@@ -14,7 +15,7 @@ namespace E8ay.Item.Services
 
         IEnumerable<AuctionItemViewModel> GetAllAuctionItems();
 
-        Task UpdateAuctionItemBidInfo(string id, decimal price, string highestBiderId, ItemStatus? itemStatus = null);
+        Task UpdateAuctionItemBidInfo(string id, decimal price, string highestBiderId, ItemStatus? itemStatus = null, string notifyWithEvent = null);
 
         Task SeedAuctionItems();
 

@@ -7,6 +7,8 @@ import { getItemsAction, updateItemInfo, placeBidAction } from './actions/items.
 import { getItems } from './reducers';
 import { getUserId } from '../login/reducers';
 import { IRootState } from '../reducer';
+import { itemChannel } from '../common/pusher/pusher-client';
+import { pusherAuctionEndEventName, pusherNewBidEventName} from '../common/config';
 
 export interface IItemProps {
   items: IAuctionItem[],
@@ -17,13 +19,31 @@ export class Items extends React.Component<IItemProps & {dispatch: Dispatch}> {
 
   public componentDidMount(){
     this.props.dispatch(getItemsAction());
+    itemChannel.bind(pusherAuctionEndEventName, (item:IAuctionItem) => {
+      this.props.dispatch(updateItemInfo(item));
+
+    });
+    
+    itemChannel.bind(pusherNewBidEventName, (item:IAuctionItem) => {
+      this.props.dispatch(updateItemInfo(item));
+    });
+  }
+
+  public componentWillUnmount() {
+    itemChannel.unbind(pusherNewBidEventName);
+    itemChannel.unbind(pusherAuctionEndEventName);
   }
   
   public render() {
-    const { items } = this.props;
+    const { items, currentUserId } = this.props;
 
     return (
-      <AuctionItemList auctionItems={items}  onBidPriceUpdate={this.updateBidPrice.bind(this)} onPlaceBid={this.onPlaceBid.bind(this)}/>
+      <AuctionItemList 
+        auctionItems={items}  
+        currentUserId={currentUserId}
+        onBidPriceUpdate={this.updateBidPrice.bind(this)} 
+        onPlaceBid={this.onPlaceBid.bind(this)}
+      />
     );
   }
 

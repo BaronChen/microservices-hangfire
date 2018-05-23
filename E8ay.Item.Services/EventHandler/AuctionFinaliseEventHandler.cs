@@ -1,6 +1,7 @@
 ﻿using E8ay.Common.Enums;
 using E8ay.Common.HangFire.EventBus;
 using E8ay.Common.HangFire.EventData;
+using E8ay.Common.Pusher;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,14 +13,14 @@ namespace E8ay.Item.Services.EventHandler
     {
         private readonly IItemService _itemServie;
 
-        public AuctionFinaliseEventHandler(IItemService itemServie)
+        public AuctionFinaliseEventHandler(IItemService itemServie, IPusherManager pusherManager)
         {
             _itemServie = itemServie;
         }
 
         public async Task Handle(Event<AuctionFinaliseEventData> e)
         {
-            await _itemServie.UpdateAuctionItemBidInfo(e.Data.ItemId, e.Data.HighestPrice, e.Data.HighestBiderId, string.IsNullOrWhiteSpace(e.Data.HighestBiderId) ? ItemStatus.End : ItemStatus.Sold);
+            await _itemServie.UpdateAuctionItemBidInfo(e.Data.ItemId, e.Data.HighestPrice, e.Data.HighestBiderId, string.IsNullOrWhiteSpace(e.Data.HighestBiderId) ? ItemStatus.End : ItemStatus.Sold, PusherConstants.AuctionEndEvent);
         }
     }
 }

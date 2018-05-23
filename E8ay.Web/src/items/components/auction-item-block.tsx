@@ -16,6 +16,7 @@ import { Countdown } from '../../common/countdown/coutdown.component';
 
 export interface IAuctionItemProps {
   auctionItem: IAuctionItem,
+  currentUserId: string,
   onBidPriceUpdate: (bidPrice: number) => void;
   onPlaceBid: () => void;
 }
@@ -49,7 +50,7 @@ const DecoratedAuctionItemBlock = decorate(
     }
 
     public render() {
-      const { auctionItem, classes } = this.props;
+      const { auctionItem, classes, currentUserId } = this.props;
 
       return (
         <Card className={classes.card}>
@@ -57,26 +58,34 @@ const DecoratedAuctionItemBlock = decorate(
             <Typography variant="headline" component="h2">
               {auctionItem.name}
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
+            <Typography className={classes.pos} color="error">
               Current Price: ${auctionItem.highestPrice}
             </Typography>
+            {
+              currentUserId === auctionItem.highestBiderId ?
+                <Typography className={classes.pos} color="error" variant="subheading">
+                  You are the highest bidder for now.     
+                </Typography>
+                :
+                null
+            }
 
             <Typography className={classes.pos} component="p">
               {auctionItem.description}
             </Typography>
 
-             <Typography  variant="subheading">
+            <Typography variant="subheading">
               Start:
             </Typography>
             <Typography variant="body2">
               {format(parse(auctionItem.startDateTime), 'DD/MM/YYYY HH:mm:ss')}
             </Typography>
-            
-            <Typography  variant="subheading">
+
+            <Typography variant="subheading">
               Ends In:
             </Typography>
-            <Typography variant="body2">
-              <Countdown dateStr={auctionItem.endDateTime}/>
+            <Typography variant="body2" color="secondary">
+              <Countdown dateStr={auctionItem.endDateTime} />
             </Typography>
 
             {
@@ -105,7 +114,7 @@ const DecoratedAuctionItemBlock = decorate(
               <CardActions>
                 <Button color="primary" size="small" onClick={this.placeBidClicked.bind(this)}>Bid</Button>
               </CardActions>
-              : 
+              :
               null
           }
 

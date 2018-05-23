@@ -28,7 +28,11 @@ namespace E8ay.Common.HangFire
 
             services.AddHangfire(config =>
             {
-                config.UseMongoStorage(mongoConnectionString, database);
+                var storageOption = new MongoStorageOptions()
+                {
+                    QueuePollInterval = TimeSpan.FromMilliseconds(200)
+                };
+                config.UseMongoStorage(mongoConnectionString, database, storageOption);
             });
 
             services.AddSingleton<IEventHandlerRegistry, EventHandlerRegistry>();
@@ -49,7 +53,8 @@ namespace E8ay.Common.HangFire
             var options = new BackgroundJobServerOptions
             {
                 Queues = serviceQueueNames,
-                Activator =  new ContainerJobActivator(app.ApplicationServices)
+                Activator =  new ContainerJobActivator(app.ApplicationServices),
+                SchedulePollingInterval = TimeSpan.FromSeconds(1)
             };
             
             //After restart a duplicate server will still hanging around base on https://github.com/HangfireIO/Hangfire/issues/889

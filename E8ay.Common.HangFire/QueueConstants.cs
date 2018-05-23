@@ -11,6 +11,6 @@ namespace E8ay.Common.HangFire
         public const string AuctionEnd = "auction_end";
         public const string ItemQueue = "item_queue";
         public const string AuctionEndFinalise = "auction_end_finalise";
-        public const string SignalRQueue = "signalr_queue";
+        public const string Deafult = "deafult";
     }
 }

@@ -1,10 +1,11 @@
 import { get, post } from '../common/http/http-client';
 import { IAuctionItem, IAuctionBid } from './models';
+import { itemServiceUrl, bidServiceUrl } from '../common/config';
 
 export const loadItems = async ():Promise<IAuctionItem[]> => {
   
   try {
-    const result = await get<IAuctionItem[]>('http://localhost:8200/api/items', true);
+    const result = await get<IAuctionItem[]>(`${itemServiceUrl}/api/items`, true);
     return result || [];
   }catch(error) {
     throw JSON.stringify(error);
@@ -13,7 +14,7 @@ export const loadItems = async ():Promise<IAuctionItem[]> => {
 
 export const placeBid = async (data: IAuctionBid):Promise<null> => { 
   try {
-    await post<null>('http://localhost:8300/api/bids/add', data ,true);
+    await post<null>(`${bidServiceUrl}/api/bids/add`, data ,true);
     return null;
   }catch(error) {
     throw JSON.stringify(error);

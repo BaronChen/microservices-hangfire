@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using E8ay.Common.HangFire;
 using E8ay.Common.HangFire.EventData;
+using E8ay.Common.Pusher;
 using E8ay.Item.Data;
 using E8ay.Item.Services.EventHandler;
 using E8ay.Item.Services.Impl;
@@ -19,6 +20,8 @@ namespace E8ay.Item.Services
             services.AddTransient<IItemService, ItemService>();
 
             services.AddDataLayer(mongoConnectionString);
+
+            services.AddPusher();
         }
 
         public static void AddEventHandlers(this IServiceCollection services)

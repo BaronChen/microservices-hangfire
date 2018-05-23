@@ -31,6 +31,7 @@ namespace E8ay.Item.Api.Controllers
             return OkResult(items);
         }
 
+        //Service to service endpoint is not authorised for now
         [AllowAnonymous]
         [HttpGet]
         [Route("{id}/validate-for-bid")]
@@ -47,14 +48,5 @@ namespace E8ay.Item.Api.Controllers
                 return BadResult(false, result.Errors);
             }
         }
-
-        [HttpPost]
-        [Route("add")]
-        public IActionResult Create()
-        {
-            var userId = GetUserId();
-            return Ok();
-        }
-
     }
 }

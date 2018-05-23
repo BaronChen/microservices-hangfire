@@ -5,6 +5,7 @@ using E8ay.Common.HangFire;
 using E8ay.Common.HangFire.EventBus;
 using E8ay.Common.HangFire.EventData;
 using E8ay.Common.Models;
+using E8ay.Common.Pusher;
 using E8ay.Common.ViewModels;
 using E8ay.Item.Data;
 using E8ay.Item.Data.Models;
@@ -20,12 +21,14 @@ namespace E8ay.Item.Services.Impl
     {
         private readonly IAuctionItemRepository _auctionItemRepository;
         private readonly IJobService _jobService;
+        private readonly IPusherManager _pusherManager;
         private readonly IMapper _mapper;
 
-        public ItemService(IAuctionItemRepository auctionItemRepository, IJobService jobService)
+        public ItemService(IAuctionItemRepository auctionItemRepository, IJobService jobService, IPusherManager pusherManager)
         {
             _auctionItemRepository = auctionItemRepository;
             _jobService = jobService;
+            _pusherManager = pusherManager;
 
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<AuctionItem, AuctionItemViewModel>();
@@ -73,7 +76,7 @@ namespace E8ay.Item.Services.Impl
             return result;
         }
 
-        public async Task UpdateAuctionItemBidInfo(string id, decimal price, string highestBiderId, ItemStatus? itemStatus = null)
+        public async Task UpdateAuctionItemBidInfo(string id, decimal price, string highestBiderId, ItemStatus? itemStatus = null, string notifyWithEvent = null)
         {
             var item = _auctionItemRepository.GetById(id);
 
@@ -102,6 +105,12 @@ namespace E8ay.Item.Services.Impl
             catch(Exception)
             {
                 throw;
+            }
+
+            if (!string.IsNullOrWhiteSpace(notifyWithEvent))
+            {
+                var itemViewModel = _mapper.Map<AuctionItem, AuctionItemViewModel>(item);
+                await _pusherManager.PushNotification(PusherConstants.ItemChannel, notifyWithEvent, itemViewModel);
             }
         }
 
@@ -147,10 +156,9 @@ namespace E8ay.Item.Services.Impl
         {
             var @event = new Event<AuctionEndEventData>() { Data = new AuctionEndEventData() { ItemId = item.Id }, EventName = AuctionEndEventData.EventName };
 
-            @event.TargetQueues.Add(QueueConstants.AuctionEnd);
-
             _jobService.PublishDelayedEvent(@event, item.EndDateTime - DateTime.Now);
         }
-        
+
+      
     }
 }
