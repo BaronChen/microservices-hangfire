@@ -25,6 +25,10 @@ services:
     depends_on:
       - e8ay.mongo
 
-#  e8ay.web:
-#    ports:
-#      - "3000:80"
+  e8ay.web:
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: bash

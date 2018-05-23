@@ -19,11 +19,11 @@ services:
       context: .
       dockerfile: E8ay.Bid.Api/Dockerfile
   
-#  e8ay.web:
-#    image: e8ayweb
-#    build:
-#      context: .
-#      dockerfile: E8ay.Web/Dockerfile
+  e8ay.web:
+    image: e8ayweb
+    build:
+      context: ./E8ay.Web
+      dockerfile: Dockerfile
   
   e8ay.mongo:
     image: mongo:3.6

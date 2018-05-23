@@ -11,6 +11,7 @@ RUN npm install --silent
 WORKDIR /app
 RUN mv /tmp/node_modules ./ 
 
+COPY . .
 
 # start app
 CMD ["npm", "start"]
