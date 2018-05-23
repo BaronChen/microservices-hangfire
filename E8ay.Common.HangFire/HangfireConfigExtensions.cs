@@ -16,15 +16,15 @@ namespace E8ay.Common.HangFire
     public static class HangfireConfigExtensions
     {
 
-        public static void AddHangFireServices(this IServiceCollection services, string mongoConnectionString, string database)
+        public static void AddHangFireServices(this IServiceCollection services, string mongoConnectionString, string database, bool clearHangfireDb = false)
         {
             var serviceProvider = services.BuildServiceProvider();
             var env = serviceProvider.GetService<IHostingEnvironment>();
 
-            if (env.IsDevelopment())
+            if (clearHangfireDb && env.IsDevelopment())
             {
                 DatabaseCleaner.ClearDatabase(mongoConnectionString, database);
-            } 
+            }
 
             services.AddHangfire(config =>
             {

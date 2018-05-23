@@ -29,8 +29,8 @@ namespace E8ay.Item.Api
             services.AddJwtAuth();
             services.AddMongoOption(mongoConnectionString, database);
             services.AddServicesLayer(mongoConnectionString);
-
-            services.AddHangFireServices(mongoConnectionString, hangFireDb);
+            
+            services.AddHangFireServices(mongoConnectionString, hangFireDb, clearHangfireDb: true);
             services.AddEventHandlers();
 
             services.AddCors();
