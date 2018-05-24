@@ -13,7 +13,7 @@ namespace E8ay.Item.Services.EventHandler
     {
         private readonly IItemService _itemServie;
 
-        public AuctionFinaliseEventHandler(IItemService itemServie, IPusherManager pusherManager)
+        public AuctionFinaliseEventHandler(IItemService itemServie)
         {
             _itemServie = itemServie;
         }

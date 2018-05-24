@@ -14,4 +14,8 @@
     <ProjectReference Include="..\E8ay.Common.Data\E8ay.Common.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

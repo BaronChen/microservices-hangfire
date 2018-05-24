@@ -18,8 +18,11 @@ namespace E8ay.Common.HangFire.EventBus
         public async Task Process<T>(Event<T> e) where T : IEventData
         {
             var handler = _registry.GetHandler<T>(e.EventName);
-            
-            await handler?.Handle(e);
+
+            if (handler != null)
+            {
+                await handler.Handle(e);
+            }
         }
     }
 }
