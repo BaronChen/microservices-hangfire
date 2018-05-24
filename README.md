@@ -9,7 +9,7 @@ This is a simple auction site that adopt microservices architecture with event b
 - React/Redux
 
 ### Architecture Graph
-![architecture graph](https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiXG5ncmFwaCBURFxuXHRVKFVzZXIuQXBpKSAtLT4gRVtTaW1wbGUgRXZlbnQgQnVzXVxuXHRJKEl0ZW0uQXBpKSAtLT4gRVxuXHRCKEJpZC5BcGkpIC0tPiBFXG5cdEUgLS0-IEgoKEhhbmdmaXJlKSlcblxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0 "Architecture Graph")
+![architecture graph](./arch-graph.svg)
 
 ### Start Solution
 ```sh
