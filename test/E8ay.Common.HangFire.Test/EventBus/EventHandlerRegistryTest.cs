@@ -26,7 +26,7 @@ namespace E8ay.Common.HangFire.Test.EventBus
 
 
         [TestMethod]
-        public async Task Should_Be_Able_To_Add_And_Get_Handler()
+        public void Should_Be_Able_To_Add_And_Get_Handler()
         {
             _registry.AddHandler<TestEventData>(TestEventData.EventName, typeof(TestEventHandler));
 
@@ -38,13 +38,13 @@ namespace E8ay.Common.HangFire.Test.EventBus
         }
 
         [TestMethod]
-        public async Task Should_Throw_Exception_For_Invalid_Handler()
+        public void Should_Throw_Exception_For_Invalid_Handler()
         {
             Should.Throw<ApplicationException>(() => _registry.AddHandler<TestEventData>(TestEventData.EventName, typeof(Object)));
         }
 
         [TestMethod]
-        public async Task Should_Return_Null_If_No_Handler()
+        public void Should_Return_Null_If_No_Handler()
         {
             var handler = _registry.GetHandler<TestEventData>("OTHER_EVENT");
             handler.ShouldBe(null);

@@ -2,12 +2,10 @@ version: '3.5'
 
 services:
 
-  e8ay-web:
+  e8ay-web-test:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
