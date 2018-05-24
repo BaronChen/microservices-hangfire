@@ -12,6 +12,7 @@ import {
 
 import { loadItems, placeBid } from '../items.api';
 import { IAuctionItem, ItemStatus, IAuctionBid } from '../models';
+import { IErrorModel } from '../../common/http/http-client';
 
 describe('Items actions tests', () => {
   it('Create IGetItems action correctly', () => {
@@ -58,10 +59,13 @@ describe('Items actions tests', () => {
     expect(placeBid).toBeCalledWith(testBid);
     (global as any).alert = jest.fn();
 
-    const testError = 'testError';
+    const testError:IErrorModel = {
+      status: 400,
+      errors: ['testError']
+    };
     (action.meta as any).onFailure(testError, ({} as any));
     expect((global as any).alert).toHaveBeenCalledTimes(1);
-    expect((global as any).alert).toHaveBeenCalledWith(testError);
+    expect((global as any).alert).toHaveBeenCalledWith(testError.errors[0]);
 
     (global as any).alert = jest.fn();
     (action.meta as any).onSuccess('', ({} as any));

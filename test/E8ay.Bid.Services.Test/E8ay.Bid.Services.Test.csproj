@@ -14,4 +14,12 @@
     <PackageReference Include="Shouldly" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\E8ay.Bid.Data\E8ay.Bid.Data.csproj" />
+    <ProjectReference Include="..\..\E8ay.Bid.Services\E8ay.Bid.Services.csproj" />
+    <ProjectReference Include="..\..\E8ay.Common.ApiClient\E8ay.Common.ApiClient.csproj" />
+    <ProjectReference Include="..\..\E8ay.Common.Api\E8ay.Common.Api.csproj" />
+    <ProjectReference Include="..\..\E8ay.Common.HangFire\E8ay.Common.HangFire.csproj" />
+  </ItemGroup>
+
 </Project>

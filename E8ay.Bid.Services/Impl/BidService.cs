@@ -73,13 +73,7 @@ namespace E8ay.Bid.Services.Impl
                 return result;
             }
 
-            //Should check if item actually exist as well
             var validationResult = await _itemServiceApiClient.ValidateItemForBidding(bidViewModel.ItemId);
-
-            if (validationResult == null)
-            {
-                throw new ApplicationException("Unexpected error!");
-            }
 
             if (!validationResult.Data)
             {

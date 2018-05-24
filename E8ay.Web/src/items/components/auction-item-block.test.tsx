@@ -130,6 +130,7 @@ describe('AuctionItemBlock tests', () => {
     const mockPlaceBidFn = jest.fn();
 
     const soldWrapper = getWrapper(soldItem, soldItem.highestBiderId, mockUpdateBidFn, mockPlaceBidFn);
+    expect(soldWrapper.find(Typography).at(2).childAt(0).childAt(0).text()).toBe("You are the highest bidder for now.");
     expect(soldWrapper.find(Typography).at(8).childAt(0).text()).toBe("Item has been sold");
     expect(soldWrapper.find(CardActions).length).toBe(0);
 

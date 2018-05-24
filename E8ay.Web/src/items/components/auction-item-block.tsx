@@ -63,7 +63,7 @@ const DecoratedAuctionItemBlock = decorate(
             </Typography>
             <Typography className={classes.pos} color="error" variant="subheading">
             {
-              auctionItem.status === ItemStatus.UnderOffer ?
+              auctionItem.status === ItemStatus.UnderOffer || auctionItem.status === ItemStatus.End || auctionItem.status === ItemStatus.Sold?
                   (currentUserId === auctionItem.highestBiderId ?
                     <span>You are the highest bidder for now.</span>
                   :

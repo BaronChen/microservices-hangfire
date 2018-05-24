@@ -17,6 +17,6 @@ export const placeBid = async (data: IAuctionBid):Promise<null> => {
     await post<null>(`${bidServiceUrl}/api/bids/add`, data ,true);
     return null;
   }catch(error) {
-    throw JSON.stringify(error);
+    throw error;
   }
 }

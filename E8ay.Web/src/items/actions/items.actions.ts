@@ -3,6 +3,7 @@ import { IRootState } from '../../reducer';
 import { GetState, ActionMeta } from 'redux-pack';
 import { IAuctionItem } from '../models';
 import { loadItems, placeBid } from '../items.api';
+import { IErrorModel } from '../../common/http/http-client';
 
 export const actionTypes = {
   GET_ITEMS: '[ITEMS]GET_ITEMS',
@@ -51,8 +52,8 @@ export const placeBidAction = (itemId: string, userId: string, bidPrice: number)
       bidPrice
     }),
     meta: {
-      onFailure: (error: string, getState: GetState<IRootState>) => {
-        alert(error);
+      onFailure: (error: IErrorModel, getState: GetState<IRootState>) => {
+        alert(error.errors[0]);
       },
       onSuccess: (response:any, getState: GetState<IRootState>) => {
         alert('Bid Placed');
