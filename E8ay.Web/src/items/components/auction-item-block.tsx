@@ -39,7 +39,7 @@ type PropsWithStyles = IAuctionItemProps & WithStyles<"card" | "pos" | "textFiel
 const DecoratedAuctionItemBlock = decorate(
   class AuctionItemBlock extends React.Component<PropsWithStyles> {
 
-    private const bidPriceDebounce = debounce((bidPrice: number) => this.props.onBidPriceUpdate(bidPrice), 300, { leading: true, trailing: true });
+    private bidPriceDebounce = debounce((bidPrice: number) => this.props.onBidPriceUpdate(bidPrice), 300, { leading: true, trailing: true });
 
     public bidPriceChanged(event: any) {
       this.bidPriceDebounce(Number(event.target.value));
@@ -59,16 +59,20 @@ const DecoratedAuctionItemBlock = decorate(
               {auctionItem.name}
             </Typography>
             <Typography className={classes.pos} color="error">
-              Current Price: ${auctionItem.highestPrice}
+              {`Current Price: $${auctionItem.highestPrice}`}
             </Typography>
+            <Typography className={classes.pos} color="error" variant="subheading">
             {
-              currentUserId === auctionItem.highestBiderId ?
-                <Typography className={classes.pos} color="error" variant="subheading">
-                  You are the highest bidder for now.     
-                </Typography>
-                :
-                null
+              auctionItem.status === ItemStatus.UnderOffer ?
+                  (currentUserId === auctionItem.highestBiderId ?
+                    <span>You are the highest bidder for now.</span>
+                  :
+                    <span>Currently under offer.</span>)
+              :
+              <span>No offer yet.</span>
             }
+            </Typography>
+           
 
             <Typography className={classes.pos} component="p">
               {auctionItem.description}
