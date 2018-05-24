@@ -16,7 +16,7 @@ describe('FlatArray Test', () => {
   it('Should get correct array with input', () => {
     const testInput:ITestObject[] = [1, 2, 3, 4, 5].map( (x:number):ITestObject => ({id: `${x}`, name: `${x}_name` }));
 
-    const result = getFlatArray(testInput);
+    const result:IFlatArray<ITestObject> = getFlatArray(testInput);
 
     expect(result.ids.length).toBe(5);
 
