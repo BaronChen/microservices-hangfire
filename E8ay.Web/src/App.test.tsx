@@ -6,6 +6,8 @@ import { Route } from 'react-router';
 import Items from './items/items';
 import Login from './login/login';
 
+import Alert from 'react-s-alert';
+
 describe('App tests', () => {
   it('should render three route', () => {
     const wrapper = shallow(<App />);
@@ -20,6 +22,7 @@ describe('App tests', () => {
     expect(wrapper.find(Route).get(1).props.component).toBe(Items);
     expect(wrapper.find(Route).get(2).props.path).toBe('/');
     expect(wrapper.find(Route).get(2).props.exact).toBe(true);
+    expect(wrapper.find(Alert).length).toBe(1);
   });
 
 })

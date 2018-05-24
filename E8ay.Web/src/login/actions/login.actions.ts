@@ -7,6 +7,8 @@ import { GetState, ActionMeta } from 'redux-pack';
 
 import { push } from 'react-router-redux';
 
+import Alert from 'react-s-alert';
+
 export const actionTypes = {
   SUBMIT_LOGIN: '[LOGIN]SUBMIT_LOGIN',
   UPDATE_AUTH_TOKEN: '[LOGIN]UPDATE_AUTH_TOKEN',
@@ -38,7 +40,11 @@ export const submitLogin = (username:string, password:string, dispatch: Dispatch
   promise: login(username, password),
   meta: {
     onFailure: (error: string, getState: GetState<IRootState>) => {
-      alert(error);
+      Alert.error(error, {
+        position: 'top',
+        effect: 'slide',
+        timeout: 'none'
+      });
     },
     onSuccess: (response: IJwt, getState: GetState<IRootState>) => {
       dispatch(push('/items'));

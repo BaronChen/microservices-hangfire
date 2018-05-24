@@ -1,7 +1,10 @@
+jest.mock('react-s-alert');
+
 jest.mock('../items.api', () => ({
   loadItems: jest.fn(),
   placeBid: jest.fn()
 }));
+
 
 import {
   actionTypes, 
@@ -14,6 +17,8 @@ import { loadItems, placeBid } from '../items.api';
 import { IAuctionItem, ItemStatus, IAuctionBid } from '../models';
 import { IErrorModel } from '../../common/http/http-client';
 
+import Alert from 'react-s-alert';
+
 describe('Items actions tests', () => {
   it('Create IGetItems action correctly', () => {
     const action = getItemsAction();
@@ -21,11 +26,10 @@ describe('Items actions tests', () => {
     expect(action.promise).not.toBe(null);
     expect(action.payload).toBe(undefined);
     expect(loadItems).toHaveBeenCalledTimes(1);
-    (global as any).alert = jest.fn();
     const testError = 'testError';
     (action.meta as any).onFailure(testError, ({} as any));
-    expect((global as any).alert).toHaveBeenCalledTimes(1);
-    expect((global as any).alert).toHaveBeenCalledWith(testError);
+    expect(Alert.error).toHaveBeenCalledTimes(1);
+    expect(Alert.error).toHaveBeenCalledWith(testError, expect.anything());
   });
 
 
@@ -57,20 +61,21 @@ describe('Items actions tests', () => {
     expect(action.type).toBe(actionTypes.PLACE_BID);
     expect(placeBid).toHaveBeenCalledTimes(1);
     expect(placeBid).toBeCalledWith(testBid);
-    (global as any).alert = jest.fn();
 
     const testError:IErrorModel = {
       status: 400,
       errors: ['testError']
     };
-    (action.meta as any).onFailure(testError, ({} as any));
-    expect((global as any).alert).toHaveBeenCalledTimes(1);
-    expect((global as any).alert).toHaveBeenCalledWith(testError.errors[0]);
 
-    (global as any).alert = jest.fn();
+    (Alert as any).error.mockReset();
+    (action.meta as any).onFailure(testError, ({} as any));
+    expect(Alert.error).toHaveBeenCalledTimes(1);
+    expect(Alert.error).toHaveBeenCalledWith(testError.errors[0], expect.anything());
+
+    (Alert as any).success.mockReset();
     (action.meta as any).onSuccess('', ({} as any));
-    expect((global as any).alert).toHaveBeenCalledTimes(1);
-    expect((global as any).alert).toHaveBeenCalledWith('Bid Placed');
+    expect(Alert.success).toHaveBeenCalledTimes(1);
+    expect(Alert.success).toHaveBeenCalledWith('Bid Placed', expect.anything())
 
   });
 

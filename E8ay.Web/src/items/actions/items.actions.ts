@@ -4,6 +4,7 @@ import { GetState, ActionMeta } from 'redux-pack';
 import { IAuctionItem } from '../models';
 import { loadItems, placeBid } from '../items.api';
 import { IErrorModel } from '../../common/http/http-client';
+import Alert from 'react-s-alert';
 
 export const actionTypes = {
   GET_ITEMS: '[ITEMS]GET_ITEMS',
@@ -33,7 +34,11 @@ export const getItemsAction = (): IGetItems => ({
   promise: loadItems(),
   meta: {
     onFailure: (error: string, getState: GetState<IRootState>) => {
-      alert(error);
+      Alert.error(error, {
+        position: 'top',
+        effect: 'slide',
+        timeout: 'none'
+      });
     }
   }
 })
@@ -53,10 +58,20 @@ export const placeBidAction = (itemId: string, userId: string, bidPrice: number)
     }),
     meta: {
       onFailure: (error: IErrorModel, getState: GetState<IRootState>) => {
-        alert(error.errors[0]);
+        error.errors.map((x) => {
+          Alert.error(x, {
+            position: 'top',
+            effect: 'slide',
+            timeout: 'none'
+          });
+        })
       },
       onSuccess: (response:any, getState: GetState<IRootState>) => {
-        alert('Bid Placed');
+        Alert.success('Bid Placed', {
+          position: 'top',
+          effect: 'slide',
+          timeout: 'none'
+        });
       }
     }
   }

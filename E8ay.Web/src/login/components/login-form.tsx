@@ -59,7 +59,7 @@ const DecoratedLoginForm = decorate(
           <Button variant="outlined" color="primary" className={classes.button} onClick={this.loginClicked.bind(this)}>
             Login
           </Button>
-          <Typography className={classes.pos} component="caption" align="center" color="secondary">
+          <Typography className={classes.pos} component="p" align="center" color="secondary">
             For demo purpose, use 'user1' and 'user2' to login. Password is 'password'.
           </Typography>
         </div>
