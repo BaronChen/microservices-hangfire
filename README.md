@@ -8,14 +8,8 @@ This is a simple auction site that adopt microservices architecture with event b
 - [Pusher](https://pusher.com/)
 - React/Redux
 
-### Sercvices Graph
-```mermaid
-graph TD
-	U(User.Api) --> E[Simple Event Bus]
-	I(Item.Api) --> E
-	B(Bid.Api) --> E
-	E --> H((Hangfire))
-```
+### Architecture Graph
+![architecture graph](https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiXG5ncmFwaCBURFxuXHRVKFVzZXIuQXBpKSAtLT4gRVtTaW1wbGUgRXZlbnQgQnVzXVxuXHRJKEl0ZW0uQXBpKSAtLT4gRVxuXHRCKEJpZC5BcGkpIC0tPiBFXG5cdEUgLS0-IEgoKEhhbmdmaXJlKSlcblxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0 "Architecture Graph")
 
 ### Start Solution
 ```sh
